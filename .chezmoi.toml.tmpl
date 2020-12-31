@@ -1,0 +1,5 @@
+{{/* boolean feature flags */}}
+{{- $headless := promptBool "headless" -}}
+
+[data]
+  headless = {{ $headless }} # true if this machine does not have a screen and keyboard
