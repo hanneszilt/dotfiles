@@ -1,0 +1,29 @@
+= My dotfiles
+
+WARNING: work in progress
+
+== Installation
+----
+bash -c "$(curl -s https://raw.githubusercontent.com/hanneszilt/dotfiles/main/setup.sh)"
+----
+
+== Testing
+start simple test environment using docker via `./test/run.sh`
+
+== ToDos
+* [ ] configure zsh
+** [ ] add https://github.com/ohmyzsh/ohmyzsh[oh-my-zsh] configuration
+** [ ] configure https://github.com/romkatv/powerlevel10k[powerlevel10k]
+** [ ] configure https://github.com/zsh-users/zsh-autosuggestions[zsh-autosuggestions]
+* [ ] install tools `jq`, `bat`, `httpie`, ...
+* [ ] install https://www.jetbrains.com/de-de/toolbox-app[JetBrains toolbox]
+* [ ] add docker installation
+* [ ] add kubectl & minikube installation
+* [ ] add gnome configuration
+
+=== Configure Gnome
+* https://itsfoss.com/gnome-shell-extensions/
+* https://github.com/home-sweet-gnome/dash-to-panel/wiki/Enable-and-Customize=customize-it
+* `sudo apt-get install gnome-tweaks`
+* `sudo apt-get install gnome-shell-extensions`
+* `sudo apt-get install gnome-shell-extension-dash-to-panel`
