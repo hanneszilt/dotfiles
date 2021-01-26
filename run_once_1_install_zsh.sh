@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sudo apt-get install -y zsh
+
+zsh=$(which zsh)
+
+# change user's login shell to "zsh" if necessary
+if [[ "$(basename -- "$SHELL")" != "zsh" ]]; then
+  echo "Trying to change shell by running 'sudo chsh $(whoami) -s $zsh' ..."
+  if ! sudo chsh "$(whoami)" -s "$zsh"; then
+    echo "chsh command unsuccessful. Change your default shell manually."
+  else
+    export SHELL="$zsh"
+    echo "shell successfully changed to '$zsh'."
+  fi
+else
+  echo "shell is already $SHELL"
+fi
+
+# align oh-my-zsh and powerlevel10k install dir
+export ZSH=$HOME/.oh-my-zsh
+
+# install oh-my-zsh (https://github.com/ohmyzsh/ohmyzsh)
+if [[ ! -d $ZSH ]]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+else
+  echo "oh-my-zsh already installed"
+fi
+
+# install powerlevel10k (https://github.com/romkatv/powerlevel10k)
+POWERLEVEL_DIR=${ZSH}/custom/themes/powerlevel10k
+if [[ ! -d $POWERLEVEL_DIR ]]; then
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$POWERLEVEL_DIR"
+else
+  echo "powerlevel10k" already installed
+fi
+
+# TODO Is this really needed here?
+exec zsh -l
