@@ -8,7 +8,10 @@ bash -c "$(curl -s https://raw.githubusercontent.com/hanneszilt/dotfiles/main/se
 ----
 
 == Testing
-start simple test environment using docker via `./test/run.sh`
+1. start docker test environment +
+   `./test/run.sh`
+2. start chezmoi init via +
+   `chezmoi init --apply --source=./.local/shared/chezmoi`
 
 == ToDos
 * [ ] configure zsh

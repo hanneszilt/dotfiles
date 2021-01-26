@@ -13,6 +13,6 @@ WORKDIR /home/hannes
 RUN curl -sfL https://git.io/chezmoi | sudo sh
 ENV PATH="/home/hannes/bin:${PATH}"
 
-COPY setup.sh /home/hannes/
+RUN echo 'alias chezmoi_init="chezmoi init --apply --source='$HOME'/.local/shared/chezmoi"' >> ~/.bashrc
 
 ENTRYPOINT ["bash"]
