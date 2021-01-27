@@ -27,9 +27,9 @@ echo ' / / / / (__  ) /_/ /_/ / / /  / /__/ / / /  __// /_/ / / / / / /_/ / /  '
 echo '/_/_/ /_/____/\__/\__,_/_/_/   \___/_/ /_/\___//___/_/ /_/ /_/\____/_/   '
 echo ''
 if ! is_command chezmoi; then
-  cd "$HOME"
-  curl -sfL https://git.io/chezmoi | sudo sh
-  chezmoi="$HOME/bin/chezmoi"
+  bin_dir="$HOME/.local/bin"
+  chezmoi="$bin_dir/chezmoi"
+  sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b "$bin_dir"
   echo ''
   echo "run 'source ~/.profile' to add it to your PATH"
 else

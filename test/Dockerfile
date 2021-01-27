@@ -10,8 +10,8 @@ RUN groupadd hannes && \
 USER hannes
 WORKDIR /home/hannes
 
-RUN curl -sfL https://git.io/chezmoi | sudo sh
-ENV PATH="/home/hannes/bin:${PATH}"
+RUN sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b "/home/hannes/.local/bin"
+ENV PATH="/home/hannes/.local/bin:${PATH}"
 
 RUN echo 'alias chezmoi_init="chezmoi init --apply --source='$HOME'/.local/shared/chezmoi"' >> ~/.bashrc
 
