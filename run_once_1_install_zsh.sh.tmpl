@@ -36,6 +36,7 @@ else
   echo "powerlevel10k already installed"
 fi
 
+{{ if not .headless }}
 # install zsh-autosuggestions (https://github.com/zsh-users/zsh-autosuggestions)
 AUTOSUGGESTIONS_DIR=${ZSH}/custom/plugins/zsh-autosuggestions
 if [[ ! -d $AUTOSUGGESTIONS_DIR ]]; then
@@ -43,6 +44,7 @@ if [[ ! -d $AUTOSUGGESTIONS_DIR ]]; then
 else
   echo "zsh-autosuggestions already installed"
 fi
+{{ end }}
 
 # TODO Is this really needed here?
 exec zsh -l

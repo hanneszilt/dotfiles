@@ -14,7 +14,7 @@ bash -c "$(curl -s https://raw.githubusercontent.com/hanneszilt/dotfiles/main/se
    `chezmoi init --apply --source=./.local/shared/chezmoi`
 
 == ToDos
-* [ ] configure zsh
+* [x] configure zsh
 ** [x] add https://github.com/ohmyzsh/ohmyzsh[oh-my-zsh] configuration
 ** [x] configure https://github.com/romkatv/powerlevel10k[powerlevel10k]
 ** [x] configure https://github.com/zsh-users/zsh-autosuggestions[zsh-autosuggestions]
