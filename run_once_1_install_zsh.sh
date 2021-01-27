@@ -33,7 +33,15 @@ POWERLEVEL_DIR=${ZSH}/custom/themes/powerlevel10k
 if [[ ! -d $POWERLEVEL_DIR ]]; then
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$POWERLEVEL_DIR"
 else
-  echo "powerlevel10k" already installed
+  echo "powerlevel10k already installed"
+fi
+
+# install zsh-autosuggestions (https://github.com/zsh-users/zsh-autosuggestions)
+AUTOSUGGESTIONS_DIR=${ZSH}/custom/plugins/zsh-autosuggestions
+if [[ ! -d $AUTOSUGGESTIONS_DIR ]]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions --depth=1 "$AUTOSUGGESTIONS_DIR"
+else
+  echo "zsh-autosuggestions already installed"
 fi
 
 # TODO Is this really needed here?
