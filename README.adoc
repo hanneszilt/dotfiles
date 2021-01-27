@@ -18,7 +18,7 @@ bash -c "$(curl -s https://raw.githubusercontent.com/hanneszilt/dotfiles/main/se
 ** [x] add https://github.com/ohmyzsh/ohmyzsh[oh-my-zsh] configuration
 ** [x] configure https://github.com/romkatv/powerlevel10k[powerlevel10k]
 ** [x] configure https://github.com/zsh-users/zsh-autosuggestions[zsh-autosuggestions]
-* [ ] install tools `jq`, `bat`, `httpie`, ...
+* [x] install tools `jq`, `bat`, `httpie`, ...
 * [ ] install https://www.jetbrains.com/de-de/toolbox-app[JetBrains toolbox]
 * [ ] add docker installation
 * [ ] add kubectl & minikube installation
