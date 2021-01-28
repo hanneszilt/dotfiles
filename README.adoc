@@ -11,7 +11,7 @@ bash -c "$(curl -s https://raw.githubusercontent.com/hanneszilt/dotfiles/main/se
 1. start docker test environment +
    `./test/run.sh`
 2. start chezmoi init via +
-   `chezmoi init --apply --source=./.local/shared/chezmoi`
+   `chezmoi init --apply --source=./.local/share/chezmoi`
 
 == ToDos
 * [x] configure zsh
@@ -19,6 +19,7 @@ bash -c "$(curl -s https://raw.githubusercontent.com/hanneszilt/dotfiles/main/se
 ** [x] configure https://github.com/romkatv/powerlevel10k[powerlevel10k]
 ** [x] configure https://github.com/zsh-users/zsh-autosuggestions[zsh-autosuggestions]
 * [x] install tools `jq`, `bat`, `httpie`, ...
+* [x] install sdkman
 * [ ] install https://www.jetbrains.com/de-de/toolbox-app[JetBrains toolbox]
 * [ ] add docker installation
 * [ ] add kubectl & minikube installation

@@ -13,6 +13,6 @@ WORKDIR /home/hannes
 RUN sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b "/home/hannes/.local/bin"
 ENV PATH="/home/hannes/.local/bin:${PATH}"
 
-RUN echo 'alias chezmoi_init="chezmoi init --apply --source='$HOME'/.local/shared/chezmoi"' >> ~/.bashrc
+RUN echo 'alias chezmoi_init="chezmoi init --apply --source='$HOME'/.local/share/chezmoi"' >> ~/.bashrc
 
 ENTRYPOINT ["bash"]
