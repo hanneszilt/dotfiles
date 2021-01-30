@@ -30,3 +30,7 @@ bash -c "$(curl -s https://raw.githubusercontent.com/hanneszilt/dotfiles/main/se
 * `sudo apt-get install gnome-tweaks`
 * `sudo apt-get install gnome-shell-extensions`
 * `sudo apt-get install gnome-shell-extension-dash-to-panel`
+
+== Inspirations
+* https://github.com/twpayne/dotfiles[Tom Payne's dotfiles]
+* https://github.com/bketelsen/dotfiles[Brian Ketelsen's dotfiles]

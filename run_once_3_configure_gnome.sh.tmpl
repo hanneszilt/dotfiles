@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# install fonts for powerlevel10k
+font_dir="${HOME}/.local/share/fonts"
+if [[ ! -d $font_dir ]]; then
+  fonts=(
+    "MesloLGS NF Regular.ttf"
+    "MesloLGS NF Bold.ttf"
+    "MesloLGS NF Italic.ttf"
+    "MesloLGS NF Bold Italic.ttf"
+  )
+  mkdir -p $font_dir
+  for font in "${fonts[@]}"; do
+    curl -o "${HOME}/.local/share/fonts/${font}" -s "https://github.com/romkatv/powerlevel10k-media/raw/master/${font}"
+  done
+  fc-cache
+fi
