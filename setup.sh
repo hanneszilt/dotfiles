@@ -45,4 +45,4 @@ echo '/ /__/ / / /  __// /_/ / / / / / /_/ / /  / / / / / / /_  '
 echo '\___/_/ /_/\___//___/_/ /_/ /_/\____/_/  /_/_/ /_/_/\__/  '
 echo ''
 
-exec "$chezmoi" init --verbose https://github.com/hanneszilt/dotfiles.git --apply
+exec "$chezmoi" init --verbose --remove https://github.com/hanneszilt/dotfiles.git --apply
