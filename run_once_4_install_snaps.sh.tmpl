@@ -1,0 +1,21 @@
+{{ if not .headless -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+snaps=(
+  chromium
+  spotify
+)
+
+classic_snaps=(
+  code
+)
+
+for snap in ${snaps[@]}; do
+	sudo snap install $snap
+done
+
+for classic_snap in ${classic_snaps[@]}; do
+	sudo snap install $classic_snap --classic
+done
+{{ end }}
