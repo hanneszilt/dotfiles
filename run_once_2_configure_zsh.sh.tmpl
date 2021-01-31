@@ -1,21 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-zsh=$(which zsh)
-
-# change user's login shell to "zsh" if necessary
-if [[ "$(basename -- "$SHELL")" != "zsh" ]]; then
-  echo "Trying to change shell by running 'sudo chsh $(whoami) -s $zsh' ..."
-  if ! sudo chsh "$(whoami)" -s "$zsh"; then
-    echo "chsh command unsuccessful. Change your default shell manually."
-  else
-    export SHELL="$zsh"
-    echo "shell successfully changed to '$zsh'."
-  fi
-else
-  echo "shell is already $SHELL"
-fi
-
 # align oh-my-zsh and powerlevel10k install dir
 export ZSH=$HOME/.oh-my-zsh
 
@@ -44,5 +29,17 @@ else
 fi
 {{ end }}
 
-# TODO Is this really needed here?
-exec zsh -l
+# change user's login shell to "zsh" if necessary
+zsh=$(which zsh)
+if [[ "$(basename -- "$SHELL")" != "zsh" ]]; then
+  echo "Trying to change shell by running 'sudo chsh $(whoami) -s $zsh' ..."
+  if ! sudo chsh "$(whoami)" -s "$zsh"; then
+    echo "chsh command unsuccessful. Change your default shell manually."
+  else
+    export SHELL="$zsh"
+    echo "shell successfully changed to '$zsh'."
+    exec zsh -l
+  fi
+else
+  echo "shell is already $SHELL"
+fi
