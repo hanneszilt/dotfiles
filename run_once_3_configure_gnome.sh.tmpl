@@ -1,3 +1,4 @@
+{{ if not .headless -}}
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -12,7 +13,19 @@ if [[ ! -d $font_dir ]]; then
   )
   mkdir -p $font_dir
   for font in "${fonts[@]}"; do
-    curl -o "${HOME}/.local/share/fonts/${font}" -s "https://github.com/romkatv/powerlevel10k-media/raw/master/${font}"
+    curl -o "${font_dir}/${font}" -sL "https://github.com/romkatv/powerlevel10k-media/raw/master/${font// /%20}"
   done
-  fc-cache
+  fc-cache --verbose $font_dir
 fi
+
+# configure terminal
+profile=$(gsettings get org.gnome.Terminal.ProfilesList default)
+profile=${profile:1:-1} # remove leading and trailing single quotes https://askubuntu.com/a/733202
+gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${profile}/ use-system-font false
+gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${profile}/ font "MesloLGS NF 12"
+gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${profile}/ audible-bell false
+
+# hide home and trash desktop icons
+gsettings set org.gnome.shell.extensions.desktop-icons show-home false
+gsettings set org.gnome.shell.extensions.desktop-icons show-trash false
+{{ end }}
