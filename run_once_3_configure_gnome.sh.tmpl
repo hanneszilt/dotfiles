@@ -28,4 +28,9 @@ gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profi
 # hide home and trash desktop icons
 gsettings set org.gnome.shell.extensions.desktop-icons show-home false
 gsettings set org.gnome.shell.extensions.desktop-icons show-trash false
+
+# make fractional scaling work on wayland
+# https://www.linuxuprising.com/2019/04/how-to-enable-hidpi-fractional-scaling.html
+gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+
 {{ end }}
