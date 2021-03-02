@@ -2,15 +2,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ ! -d ~/.local/share/JetBrains/Toolbox ]]; then
+if [[ ! -f .local/share/JetBrains/Toolbox/bin/jetbrains-toolbox ]]; then
   DOWNLOAD_TARGET=~/Downloads/toolbox.tar.gz
   echo "Download JetBrains Toolbox into $DOWNLOAD_TARGET ..."
-  curl --progress-bar --output $DOWNLOAD_TARGET https://download-cf.jetbrains.com/toolbox/jetbrains-toolbox-1.19.7784.tar.gz
+  curl --progress-bar --output $DOWNLOAD_TARGET https://download-cf.jetbrains.com/toolbox/jetbrains-toolbox-1.20.7940.tar.gz
 
   TOOLBOX_TEMP_DIR=/tmp/toolbox
   echo "Extract JetBrains Toolbox into $TOOLBOX_TEMP_DIR ..."
+  mkdir $TOOLBOX_TEMP_DIR
   tar -C "$TOOLBOX_TEMP_DIR" -xf "$DOWNLOAD_TARGET"
+  rm $DOWNLOAD_TARGET
 
+  echo "Install JetBrains Toolbox ..."
   "$TOOLBOX_TEMP_DIR"/*/jetbrains-toolbox
 
   echo "JetBrains Toolbox was successfully installed!"

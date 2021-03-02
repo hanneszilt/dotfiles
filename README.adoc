@@ -19,8 +19,8 @@ bash -c "$(curl -s https://raw.githubusercontent.com/hanneszilt/dotfiles/main/se
 ** [x] configure https://github.com/romkatv/powerlevel10k[powerlevel10k]
 ** [x] configure https://github.com/zsh-users/zsh-autosuggestions[zsh-autosuggestions]
 * [x] install tools `jq`, `bat`, `httpie`, ...
-* [x] install sdkman
-* [ ] install https://www.jetbrains.com/de-de/toolbox-app[JetBrains toolbox]
+* [x] install SDKMAN!
+* [x] install https://www.jetbrains.com/de-de/toolbox-app[JetBrains Toolbox]
 * [ ] add docker installation
 * [ ] add kubectl & minikube installation
 * [ ] add gnome configuration

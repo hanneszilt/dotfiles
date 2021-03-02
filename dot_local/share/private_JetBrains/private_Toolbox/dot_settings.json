@@ -1,6 +1,7 @@
 {
     "shell_scripts": {
-        "enabled": true
+        "enabled": true,
+        "location": "/home/hannes/.local/bin"
     },
     "ui": {
         "theme": "dark"
