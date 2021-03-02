@@ -1,0 +1,11 @@
+{
+    "shell_scripts": {
+        "enabled": true
+    },
+    "ui": {
+        "theme": "dark"
+    },
+    "tools": {
+        "update_all_automatically": true
+    }
+}
