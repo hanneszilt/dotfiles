@@ -78,6 +78,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
   git
   npm{{ if not .headless }}
+  docker-compose
   zsh-autosuggestions{{- end }}
 )
 
