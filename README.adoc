@@ -22,7 +22,7 @@ bash -c "$(curl -s https://raw.githubusercontent.com/hanneszilt/dotfiles/main/se
 * [x] install SDKMAN!
 * [x] install https://www.jetbrains.com/de-de/toolbox-app[JetBrains Toolbox]
 * [ ] install docker and kubernetes
-** [ ] docker
+** [x] docker
 ** [x] docker-compose
 ** [ ] kubectl & minikube
 * [ ] add gnome configuration
