@@ -16,8 +16,16 @@ packages=(
 sudo apt install -y "${packages[@]}"
 
 {{ if not .headless }}
+# install chrome
+if ! command -v google-chrome >/dev/null; then
+  trap "rm -rf google-chrome-stable_current_amd64.deb" EXIT
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  sudo apt install ./google-chrome-stable_current_amd64.deb
+  rm google-chrome-stable_current_amd64.deb
+fi
+
 # fix bat executable name (https://github.com/sharkdp/bat#on-ubuntu-using-apt)
-if ! command -v bat > /dev/null; then
+if ! command -v bat >/dev/null; then
   ln -s /usr/bin/batcat ~/.local/bin/bat
 fi
 {{ end }}
