@@ -4,29 +4,34 @@ set -euo pipefail
 packages=(
   zsh
   vim
-  tree{{ if not .headless }}
-  bat
+  tree
+{{- if not .simple }}
   icdiff
   jq
   httpie
   zip
-  unzip{{- end }}
+  unzip
+{{- end }}
 )
 
 sudo apt-get update
-sudo apt install -y "${packages[@]}"
+sudo apt-get install -y "${packages[@]}"
 
-{{ if not .headless }}
+{{- if not .simple }}
+# install bat
+sudo apt-get install -y bat
+# fix bat executable name (https://github.com/sharkdp/bat#on-ubuntu-using-apt)
+if ! command -v bat >/dev/null; then
+  ln -s /usr/bin/batcat ~/.local/bin/bat
+fi
+{{ end }}
+
+{{- if not .headless }}
 # install chrome
 if ! command -v google-chrome >/dev/null; then
   trap "rm -rf google-chrome-stable_current_amd64.deb" EXIT
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   sudo apt install ./google-chrome-stable_current_amd64.deb
   rm google-chrome-stable_current_amd64.deb
-fi
-
-# fix bat executable name (https://github.com/sharkdp/bat#on-ubuntu-using-apt)
-if ! command -v bat >/dev/null; then
-  ln -s /usr/bin/batcat ~/.local/bin/bat
 fi
 {{ end }}

@@ -1,8 +1,7 @@
-{{ if not .headless -}}
+{{ if not .simple -}}
 #!/usr/bin/env bash
 set -euo pipefail
 
-# TODO install docker
 # https://docs.docker.com/engine/install/ubuntu/
 if ! command -v docker >/dev/null; then
   echo "Install docker"
@@ -25,7 +24,7 @@ fi
 # https://docs.docker.com/compose/install/
 if ! command -v docker-compose >/dev/null; then
   echo "Install docker-compose"
-  sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   sudo chmod +x /usr/local/bin/docker-compose
 else
   echo "docker-compose is already installed"

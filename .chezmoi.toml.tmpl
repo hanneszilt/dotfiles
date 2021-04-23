@@ -1,5 +1,7 @@
 {{/* boolean feature flags */}}
-{{- $headless := promptBool "headless" -}}
+{{- $simple := promptBool "Use faster simplified setup (y/n)" -}}
+{{- $headless := promptBool "Is this a headless system (y/n)" -}}
 
 [data]
-  headless = {{ $headless }} # true if this machine does not have a screen and keyboard
+  simple = {{ $simple }}
+  headless = {{ $headless }}

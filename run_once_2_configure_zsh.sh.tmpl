@@ -19,7 +19,7 @@ else
   echo "powerlevel10k already installed"
 fi
 
-{{ if not .headless }}
+{{ if not .simple }}
 # install zsh-autosuggestions (https://github.com/zsh-users/zsh-autosuggestions)
 autosuggestions_dir=${ZSH}/custom/plugins/zsh-autosuggestions
 if [[ ! -d $autosuggestions_dir ]]; then

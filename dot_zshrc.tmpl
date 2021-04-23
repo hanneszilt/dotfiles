@@ -77,9 +77,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  npm{{ if not .headless }}
+  npm
+{{- if not .simple }}
   docker-compose
-  zsh-autosuggestions{{- end }}
+  zsh-autosuggestions
+{{- end }}
 )
 
 source $ZSH/oh-my-zsh.sh
