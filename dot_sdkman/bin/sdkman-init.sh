@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-#   Copyright 2017 Marco Vermeulen
+#   Copyright 2021 Marco Vermeulen
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 
 # set env vars if not set
 if [ -z "$SDKMAN_VERSION" ]; then
-	export SDKMAN_VERSION="5.10.0+617"
+	export SDKMAN_VERSION="5.12.4"
 fi
 
 if [ -z "$SDKMAN_CANDIDATES_API" ]; then
@@ -87,7 +87,7 @@ function infer_platform() {
 	esac
 }
 
-SDKMAN_PLATFORM="$(infer_platform)"
+SDKMAN_PLATFORM="$(infer_platform | tr '[:upper:]' '[:lower:]')"
 export SDKMAN_PLATFORM
 
 # OS specific support (must be 'true' or 'false').
@@ -116,7 +116,7 @@ bash_shell=false
 
 if [[ -n "$ZSH_VERSION" ]]; then
 	zsh_shell=true
-else
+elif [[ -n "$BASH_VERSION" ]]; then
 	bash_shell=true
 fi
 
@@ -153,7 +153,7 @@ if [[ -z "${sdkman_curl_retry_max_time}" ]]; then sdkman_curl_retry_max_time=60;
 # set curl to continue downloading automatically
 if [[ -z "${sdkman_curl_continue}" ]]; then sdkman_curl_continue=true; fi
 
-# Read list of candidates and set array
+# read list of candidates and set array
 SDKMAN_CANDIDATES_CACHE="${SDKMAN_DIR}/var/candidates"
 SDKMAN_CANDIDATES_CSV=$(<"$SDKMAN_CANDIDATES_CACHE")
 __sdkman_echo_debug "Setting candidates csv: $SDKMAN_CANDIDATES_CSV"
@@ -175,26 +175,50 @@ done
 unset candidate_name candidate_dir
 export PATH
 
+# source completion scripts
+if [[ "$sdkman_auto_complete" == 'true' ]]; then
+	if [[ "$zsh_shell" == 'true' ]]; then
+		# initialize zsh completions (if not already done)
+		if ! (( $+functions[compdef] )) ; then
+			autoload -Uz compinit
+			if [[ $ZSH_DISABLE_COMPFIX == 'true' ]]; then
+				compinit -u -C
+			else
+				compinit
+			fi
+		fi
+		source "${SDKMAN_DIR}/contrib/completion/zsh/sdk"
+		__sdkman_echo_debug "ZSH completion script loaded..."
+	elif [[ "$bash_shell" == 'true' ]]; then
+		source "${SDKMAN_DIR}/contrib/completion/bash/sdk"
+		__sdkman_echo_debug "Bash completion script loaded..."
+	else
+		__sdkman_echo_debug "No completion scripts found for $SHELL"
+	fi
+fi
+
 if [[ "$sdkman_auto_env" == "true" ]]; then
 	if [[ "$zsh_shell" == "true" ]]; then
 		function sdkman_auto_env() {
+			if [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
+				sdk env clear
+			fi
 			if [[ -f .sdkmanrc ]]; then
 				sdk env
-			elif [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
-				sdk env clear
 			fi
 		}
 
 		chpwd_functions+=(sdkman_auto_env)
 	else
 		function sdkman_auto_env() {
-			if [[ "$SDKMAN_OLD_PWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]]; then
-				sdk env
-
-				export SDKMAN_OLD_PWD="$PWD"
-			elif [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
+			if [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
 				sdk env clear
 			fi
+			if [[ "$SDKMAN_OLD_PWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]]; then
+				sdk env
+			fi
+
+			export SDKMAN_OLD_PWD="$PWD"
 		}
 
 		[[ -z "$PROMPT_COMMAND" ]] && PROMPT_COMMAND="sdkman_auto_env" || PROMPT_COMMAND="${PROMPT_COMMAND%\;};sdkman_auto_env"

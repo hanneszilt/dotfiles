@@ -16,7 +16,15 @@
 #   limitations under the License.
 #
 
-function __sdk_version() {
-	echo ""
-	__sdkman_echo_yellow "SDKMAN ${SDKMAN_VERSION}"
+function __sdk_config() {
+	local -r editor=(${EDITOR:=vi})
+
+	if ! command -v "${editor[@]}" > /dev/null; then
+		__sdkman_echo_red "No default editor configured."
+		__sdkman_echo_yellow "Please set the default editor with the EDITOR environment variable."
+
+		return 1
+	fi
+
+	"${editor[@]}" "${SDKMAN_DIR}/etc/config"
 }

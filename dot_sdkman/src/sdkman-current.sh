@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-#   Copyright 2017 Marco Vermeulen
+#   Copyright 2021 Marco Vermeulen
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -56,12 +56,12 @@ function __sdkman_determine_current_version() {
 	candidate="$1"
 	present=$(__sdkman_path_contains "${SDKMAN_CANDIDATES_DIR}/${candidate}")
 	if [[ "$present" == 'true' ]]; then
-		if [[ "$solaris" == true ]]; then
-			CURRENT=$(echo $PATH | gsed -r "s|${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
-		elif [[ "$darwin" == true ]]; then
-			CURRENT=$(echo $PATH | sed -E "s|${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
-		else
-			CURRENT=$(echo $PATH | sed -r "s|${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
+		if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin ]]; then
+			if [[ "$zsh_shell" == "true" ]]; then
+				CURRENT=${match[1]}
+			else
+				CURRENT=${BASH_REMATCH[1]}
+			fi
 		fi
 
 		if [[ "$CURRENT" == "current" ]]; then

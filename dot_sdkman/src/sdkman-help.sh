@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-#   Copyright 2017 Marco Vermeulen
+#   Copyright 2021 Marco Vermeulen
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ function __sdk_help() {
 	__sdkman_echo_no_colour "       uninstall or rm   <candidate> <version>"
 	__sdkman_echo_no_colour "       list      or ls   [candidate]"
 	__sdkman_echo_no_colour "       use       or u    <candidate> <version>"
+	__sdkman_echo_no_colour "       config"
 	__sdkman_echo_no_colour "       default   or d    <candidate> [version]"
 	__sdkman_echo_no_colour "       home      or h    <candidate> <version>"
 	__sdkman_echo_no_colour "       env       or e    [init|install|clear]"

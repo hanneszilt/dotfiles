@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-#   Copyright 2017 Marco Vermeulen
+#   Copyright 2021 Marco Vermeulen
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -26,22 +26,27 @@ function __sdk_use() {
 
 	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]]; then
 		echo ""
-		__sdkman_echo_red "Stop! ${candidate} ${version} is not installed."
+		__sdkman_echo_red "Stop! Candidate version is not installed."
+		echo ""
+		__sdkman_echo_yellow "Tip: Run the following to install this version"
+		echo ""
+		__sdkman_echo_yellow "$ sdk install ${candidate} ${version}"
 		return 1
 	fi
 
 	# Just update the *_HOME and PATH for this shell.
 	__sdkman_set_candidate_home "$candidate" "$version"
 
-	# Replace the current path for the candidate with the selected version.
-	if [[ "$solaris" == true ]]; then
-		export PATH=$(echo $PATH | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
+	if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+) ]]; then
+		local matched_version
 
-	elif [[ "$darwin" == true ]]; then
-		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
+		if [[ "$zsh_shell" == "true" ]]; then
+			matched_version=${match[1]}
+		else
+			matched_version=${BASH_REMATCH[1]}
+		fi
 
-	else
-		export PATH=$(echo "$PATH" | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
+		export PATH=${PATH//${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${matched_version}/${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${version}}
 	fi
 
 	if [[ ! (-L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current") ]]; then

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-#   Copyright 2017 Marco Vermeulen
+#   Copyright 2021 Marco Vermeulen
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ function __sdkman_auto_update() {
 		__sdkman_echo_no_colour "The current version is $remote_version, but you have $version."
 		echo ""
 
-		if [[ "$sdkman_auto_selfupdate" != "true" ]]; then
+		if [[ "$sdkman_auto_answer" == false ]]; then
 			__sdkman_echo_confirm "Would you like to upgrade now? (Y/n): "
 			read upgrade
 		fi

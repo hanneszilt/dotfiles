@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-#   Copyright 2017 Marco Vermeulen
+#   Copyright 2021 Marco Vermeulen
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -65,13 +65,13 @@ function __sdkman_secure_curl_with_timeouts() {
 	fi
 }
 
-function __sdkman_page() {
+function __sdkman_echo_paged() {
 	if [[ -n "$PAGER" ]]; then
-		"$@" | eval $PAGER
+		echo "$@" | eval "$PAGER"
 	elif command -v less >& /dev/null; then
-		"$@" | less
+		echo "$@" | less
 	else
-		"$@"
+		echo "$@"
 	fi
 }
 

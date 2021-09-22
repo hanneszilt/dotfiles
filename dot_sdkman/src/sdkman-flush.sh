@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-#   Copyright 2017 Marco Vermeulen
+#   Copyright 2021 Marco Vermeulen
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ function __sdk_flush() {
 		;;
 	version)
 		if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
-			rm "${SDKMAN_DIR}/var/version"
+			rm -f "${SDKMAN_DIR}/var/version"
 			__sdkman_echo_green "Version file has been flushed."
 		fi
 		;;
@@ -38,9 +38,13 @@ function __sdk_flush() {
 	tmp)
 		__sdkman_cleanup_folder "tmp"
 		;;
+	metadata)
+    	__sdkman_cleanup_folder "var/metadata"
+    	;;
 	*)
 		__sdkman_cleanup_folder "archives"
 		__sdkman_cleanup_folder "tmp"
+		__sdkman_cleanup_folder "var/metadata"
 		;;
 	esac
 }
@@ -63,8 +67,8 @@ function __sdkman_cleanup_folder() {
 
 function __sdkman_cleanup_broadcast() {
 	if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
-		rm "${SDKMAN_DIR}/var/broadcast_id"
-		rm "${SDKMAN_DIR}/var/broadcast"
+		rm -f "${SDKMAN_DIR}/var/broadcast_id"
+		rm -f "${SDKMAN_DIR}/var/broadcast"
 		__sdkman_echo_green "Broadcast has been flushed."
 	else
 		__sdkman_echo_no_colour "No prior broadcast found so not flushed."

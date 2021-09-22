@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-#   Copyright 2017 Marco Vermeulen
+#   Copyright 2021 Marco Vermeulen
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@ function __sdkman_install_candidate_version() {
 
 	rm -rf "${SDKMAN_DIR}/tmp/out"
 	unzip -oq "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
-	mv "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	mv -f "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	__sdkman_echo_green "Done installing!"
 	echo ""
 }
@@ -120,11 +120,15 @@ function __sdkman_download() {
 	version="$2"
 
 	archives_folder="${SDKMAN_DIR}/archives"
+	metadata_folder="${SDKMAN_DIR}/var/metadata"
+	mkdir -p ${metadata_folder}
+	
 	if [ ! -f "${archives_folder}/${candidate}-${version}.zip" ]; then
 		local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 		local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 		local base_name="${candidate}-${version}"
 		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
+		local headers="${metadata_folder}/${base_name}.headers"
 
 		# pre-installation hook: implements function __sdkman_pre_installation_hook
 		local pre_installation_hook="${SDKMAN_DIR}/tmp/hook_pre_${candidate}_${version}.sh"
@@ -145,8 +149,8 @@ function __sdkman_download() {
 		echo ""
 
 		# download binary
-		__sdkman_secure_curl_download "${download_url}" --output "${binary_input}"
-		__sdkman_echo_debug "Downloaded binary to: ${binary_input}"
+		__sdkman_secure_curl_download "${download_url}" --output "${binary_input}" --dump-header "${headers}"
+		__sdkman_echo_debug "Downloaded binary to: ${binary_input} (HTTP headers written to: ${headers})"
 
 		# post-installation hook: implements function __sdkman_post_installation_hook
 		# responsible for taking `binary_input` and producing `zip_output`
@@ -159,7 +163,7 @@ function __sdkman_download() {
 		__sdkman_echo_debug "Processed binary as: $zip_output"
 		__sdkman_echo_debug "Completed post-installation hook..."
 
-		mv "$zip_output" "$zip_archive_target"
+		mv -f "$zip_output" "$zip_archive_target"
 		__sdkman_echo_debug "Moved to archive folder: $zip_archive_target"
 	else
 		echo ""
@@ -175,7 +179,7 @@ function __sdkman_validate_zip() {
 	zip_archive="$1"
 	zip_ok=$(unzip -t "$zip_archive" | grep 'No errors detected in compressed data')
 	if [ -z "$zip_ok" ]; then
-		rm "$zip_archive"
+		rm -f "$zip_archive"
 		echo ""
 		__sdkman_echo_red "Stop! The archive was corrupt and has been removed! Please try installing again."
 		return 1
