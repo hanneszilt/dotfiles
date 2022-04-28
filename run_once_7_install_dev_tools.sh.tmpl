@@ -1,0 +1,105 @@
+{{ if not .simple -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO move into sth like commons.sh
+install_if_needed() {
+  local -r command=$1
+  local -r installer=$2
+
+  if ! command -v "$command" >/dev/null; then
+    echo "Install ${command}"
+    $installer
+  else
+    echo "${command} is already installed"
+  fi
+}
+
+install_sdkman() {
+  # https://sdkman.io/install
+  curl -s "https://get.sdkman.io" | bash
+}
+
+install_npm() {
+  # https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#linux-or-other-operating-systems-node-installers
+  # https://github.com/nodesource/distributions#installation-instructions
+  curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+
+  # TODO: consider providing a possibility to install global packages without root:
+  # https://stackoverflow.com/questions/18088372/how-to-npm-install-global-not-as-root
+}
+
+install_tfenv() {
+  # https://github.com/tfutils/tfenv#manual
+  local -r target_dir="$HOME/.local/share/tfenv"
+  git clone https://github.com/tfutils/tfenv.git "$target_dir"
+  ln -s "$target_dir"/bin/* ~/.local/bin
+}
+
+install_terraform() {
+  if ! terraform --version &>/dev/null; then
+    echo "install terraform by tfenv"
+    tfenv install # installs the latest terraform version
+    tfenv use # use the installed version by default
+  else
+    echo "terraform is already installed"
+  fi
+}
+
+install_aws_cli() {
+  # https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+  local -r zip_path="/tmp/awscliv2.zip"
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "$zip_path"
+  unzip "$zip_path"
+  sudo ./aws/install
+  rm "$zip_path"
+  rm -r ./aws
+}
+
+install_aws_cdk() {
+  sudo npm install -g aws-cdk
+}
+
+install_asdf() {
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
+}
+
+install_terragrunt() {
+  asdf plugin add terragrunt
+  asdf install terragrunt latest
+}
+
+install_aws_vault() {
+  asdf plugin-add aws-vault https://github.com/virtualstaticvoid/asdf-aws-vault.git
+  asdf install aws-vault latest
+  asdf global aws-vault latest
+}
+
+install_pip() {
+  # https://linuxize.com/post/how-to-install-pip-on-ubuntu-20.04/
+  sudo apt install python3-pip
+}
+
+install_mob() {
+  # https://mob.sh/
+  curl -sL install.mob.sh | sh -s - --user
+  sudo apt-get install -y espeak-ng-espeak mbrola-us1
+}
+
+install_if_needed "sdk" install_sdkman
+install_if_needed "npm" install_npm
+install_if_needed "tfenv" install_tfenv
+
+install_terraform
+install_if_needed "aws" install_aws_cli
+install_if_needed "cdk" install_aws_cdk
+install_if_needed "asdf" install_asdf
+install_if_needed "terragrunt" install_terragrunt
+install_if_needed "aws-vault" install_aws_vault
+
+install_if_needed "pip3" install_pip
+
+install_if_needed "mob" install_mob
+
+{{ end }}

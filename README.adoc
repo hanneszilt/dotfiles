@@ -26,6 +26,8 @@ bash -c "$(curl -s https://raw.githubusercontent.com/hanneszilt/dotfiles/main/se
 ** [x] docker-compose
 ** [ ] kubectl & minikube
 * [ ] add gnome configuration
+* [ ] store VSCode settings
+* [ ] change Ubuntu input method system to get Ctrl-Shift-u to work in IDEA https://superuser.com/a/1421979
 
 === Configure Gnome
 * https://itsfoss.com/gnome-shell-extensions/

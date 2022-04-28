@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# change user's login shell to "zsh" if necessary
+zsh=$(which zsh)
+if [[ "$(basename -- "$SHELL")" != "zsh" ]]; then
+  echo "Trying to change shell by running 'sudo chsh $(whoami) -s $zsh' ..."
+  if ! sudo chsh "$(whoami)" -s "$zsh"; then
+    echo "chsh command unsuccessful. Change your default shell manually."
+  else
+    export SHELL="$zsh"
+    echo "shell successfully changed to '$zsh'."
+  fi
+else
+  echo "shell is already $SHELL"
+fi

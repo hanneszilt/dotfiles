@@ -5,7 +5,7 @@ set -euo pipefail
 if [[ ! -f .local/share/JetBrains/Toolbox/bin/jetbrains-toolbox ]]; then
   DOWNLOAD_TARGET=~/Downloads/toolbox.tar.gz
   echo "Download JetBrains Toolbox into $DOWNLOAD_TARGET ..."
-  curl --progress-bar --output $DOWNLOAD_TARGET https://download-cf.jetbrains.com/toolbox/jetbrains-toolbox-1.20.7940.tar.gz
+  curl --progress-bar --output $DOWNLOAD_TARGET https://download-cf.jetbrains.com/toolbox/jetbrains-toolbox-1.21.9712.tar.gz
 
   TOOLBOX_TEMP_DIR=/tmp/toolbox
   echo "Extract JetBrains Toolbox into $TOOLBOX_TEMP_DIR ..."

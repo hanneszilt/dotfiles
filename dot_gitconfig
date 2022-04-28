@@ -1,3 +1,11 @@
 [user]
 	name = Hannes Zilt
 	email = 61425364+hanneszilt@users.noreply.github.com
+
+# https://stackoverflow.com/a/60344116
+# [includeIf "gitdir:~/projects/a/"]
+#     path = ~/projects/a/.gitconfig
+#
+# [includeIf "gitdir:~/projects/b/"]
+# 	path = ~/projects/b/.gitconfig
+#

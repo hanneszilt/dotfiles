@@ -2,6 +2,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# install packages that depend on gnome
+packages=(
+  gnome-tweaks
+  gnome-shell-extensions
+  dconf-editor
+  guake
+  pulseaudio
+  pavucontrol
+  cups-backend-bjnp
+  cheese
+)
+
+sudo apt-get update
+sudo apt-get install -y "${packages[@]}"
+
 # install fonts for powerlevel10k
 font_dir="${HOME}/.local/share/fonts"
 if [[ ! -d $font_dir ]]; then
@@ -31,6 +46,29 @@ gsettings set org.gnome.shell.extensions.desktop-icons show-trash false
 
 # make fractional scaling work on wayland
 # https://www.linuxuprising.com/2019/04/how-to-enable-hidpi-fractional-scaling.html
-gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+# gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+
+# configure guake
+# TODO add further config
+gsettings set guake.style.font style "MesloLGS NF 12"
+# TODO add startup entry for guake
+# https://askubuntu.com/questions/598195/how-to-add-a-script-to-startup-applications-from-the-command-line
+
+# TODO install Gnome Shell extensions
+# https://extensions.gnome.org/extension/4248/audio-switcher-40/
+# this was not working :(
+
+# install EurKey
+# https://eurkey.steffen.bruentjen.eu/
+if ! dpkg -s eukey &>/dev/null; then
+  # https://eurkey.steffen.bruentjen.eu/download.html
+  echo 'install EurKEY'
+  wget -nv -O - https://eurkey.steffen.bruentjen.eu/download/debian/repo/conf/eurkey.gpg.key | sudo apt-key add -
+  echo deb https://eurkey.steffen.bruentjen.eu/download/debian/repo stable main | sudo sh -c 'cat > /etc/apt/sources.list.d/eurkey.steffen.bruentjen.de.sources.list'
+  sudo apt-get update
+  sudo apt-get install eurkey
+else
+  echo 'EurKEY already installed'
+fi
 
 {{ end }}
